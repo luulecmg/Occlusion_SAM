@@ -4,7 +4,7 @@ Evaluate the robustness of SAM and MedSAM to occlusion in medical image segmenta
 
 ## Project Structure
 ```
-PROJECT2_OCCLUSIONSAM/
+Occlusion_SAM/
 ├── configs/           # Configuration files
 ├── data/              # Dataset loaders
 ├── models/            # Model wrappers
