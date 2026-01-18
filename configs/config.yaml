@@ -1,0 +1,44 @@
+# Dataset configurations
+datasets:
+  cvc:
+    name: "CVC-ClinicDB"
+    root: "dataset/CVC-ClinicDB/PNG"
+    image_dir: "Original"
+    mask_dir: "Ground_Truth"
+    
+  kvasir:
+    name: "Kvasir-SEG"
+    root: "dataset/Kvasir-SEG"
+    image_dir: "images"
+    mask_dir: "masks"
+
+# Model configurations  
+models:
+  sam:
+    name: "SAM"
+    type: "vit_b"
+    checkpoint: "checkpoints/sam_vit_b.pth"
+    
+  medsam:
+    name: "MedSAM"
+    type: "vit_b"
+    checkpoint: "checkpoints/medsam_vit_b.pth"
+
+# Occlusion configurations
+occlusion:
+  cutout:
+    ratios: [0.1, 0.2, 0.3, 0.4, 0.5]
+    
+  cutmix:
+    ratios: [0.1, 0.2, 0.3, 0.4, 0.5]
+
+# Evaluation settings
+evaluation:
+  bbox_padding: 10
+  image_size: 1024
+  device: "cuda"
+
+# Output settings
+output:
+  results_dir: "outputs/results"
+  vis_dir: "outputs/visualizations"
