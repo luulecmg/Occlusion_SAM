@@ -3,6 +3,7 @@
 Evaluate the robustness of SAM and MedSAM to occlusion in medical image segmentation.
 
 ## Project Structure
+```
 PROJECT2_OCCLUSIONSAM/
 ├── configs/           # Configuration files
 ├── data/              # Dataset loaders
@@ -14,6 +15,7 @@ PROJECT2_OCCLUSIONSAM/
 ├── dataset/           # Your datasets
 ├── checkpoints/       # Model weights
 └── main.py            # Entry point
+```
 
 ## Setup
 
