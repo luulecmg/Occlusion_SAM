@@ -68,17 +68,17 @@ venv.bak/
 *.log
 logs/
 
-# Large model checkpoints (uncomment if you want to exclude them)
-# checkpoints/
-# *.pth
+# Large model checkpoints ()
+checkpoints/*.pth
+!checkpoints/.gitkeep
 
-# Generated outputs (uncomment if you want to exclude them)
-# outputs/
-# results/
+# Generated outputs ()
+outputs/
+results/
 
-# Data files (uncomment if you want to exclude large datasets)
-# dataset/
-# data/
+# Data files ()
+dataset/
+data/
 
 # OS files
 .DS_Store
