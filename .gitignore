@@ -79,6 +79,7 @@ results/
 # Data files ()
 dataset/
 data/
+!dataset/.gitkeep
 
 # OS files
 .DS_Store
