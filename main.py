@@ -73,7 +73,7 @@ def parse_args():
         '--device', 
         type=str, 
         default='cuda',
-        choices=['cuda', 'cpu'],
+        choices=['cuda', 'cpu', 'mps'],
         help='Device to use'
     )
     
@@ -122,9 +122,9 @@ def run_evaluation(args):
     
     # Create output directories with timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = Path(args.output_dir) / timestamp
-    results_dir = output_dir / 'results'
+    output_dir = Path(args.output_dir) / args.model / f"{args.dataset}_{args.occlusion}_{args.ratio}_{timestamp}"
     vis_dir = output_dir / 'visualizations'
+    results_dir = output_dir / 'results'
     results_dir.mkdir(parents=True, exist_ok=True)
     
     if args.visualize:

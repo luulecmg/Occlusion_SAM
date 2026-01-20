@@ -150,7 +150,7 @@ def get_model(name: str, device: str = "cuda") -> SAMWrapper:
     
     Args:
         name: 'sam' or 'medsam'
-        device: 'cuda' or 'cpu'
+        device: 'cuda' or 'mps' or 'cpu'
     
     Returns:
         SAMWrapper instance
