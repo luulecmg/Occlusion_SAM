@@ -5,6 +5,7 @@ Usage:
     python main.py --dataset cvc --model medsam --occlusion cutout --ratio 0.2
     python main.py --dataset kvasir --model sam --occlusion none
     python main.py --dataset cvc --model medsam --occlusion cutmix --ratio 0.1 0.2 0.3
+    python main.py --dataset kvasir --model medsam --occlusion surgical_tool --ratio 0.2 --tools_dir ./outputs/extracted_tools
 """
 
 import argparse
@@ -48,8 +49,15 @@ def parse_args():
         '--occlusion', 
         type=str, 
         required=True,
-        choices=['none', 'cutout', 'cutmix'],
+        choices=['none', 'cutout', 'cutmix', 'surgical_tool'],
         help='Occlusion technique'
+    )
+    
+    parser.add_argument(
+        '--tools_dir',
+        type=str,
+        default='./outputs/extracted_tools',
+        help='Directory containing extracted surgical tools (required for surgical_tool occlusion)'
     )
     
     # Optional arguments
@@ -148,7 +156,11 @@ def run_evaluation(args):
     
     for ratio in ratios:
         # Get occlusion technique
-        occlusion = get_occlusion(args.occlusion, ratio=ratio)
+        occlusion_kwargs = {'ratio': ratio}
+        if args.occlusion == 'surgical_tool':
+            occlusion_kwargs['tools_dir'] = args.tools_dir
+        
+        occlusion = get_occlusion(args.occlusion, **occlusion_kwargs)
         print(f"\nEvaluating with {occlusion}")
         
         # Limit samples if specified

@@ -2,6 +2,13 @@
 
 Evaluate the robustness of SAM and MedSAM to occlusion in medical image segmentation.
 
+## Occlusion Techniques
+
+- **None**: Baseline (no occlusion)
+- **Cutout**: Remove random square region
+- **Cutmix**: Replace region with background
+- **Surgical Tool**: Overlay extracted real tools (Step 6: `extract_tools_from_masks`)
+
 ## Project Structure
 ```
 Occlusion_SAM/
@@ -19,13 +26,13 @@ Occlusion_SAM/
 
 ## Setup
 
-1. Clone the repository:
+### 1. Clone the repository:
 ```bash
 git clone https://github.com/luulecmg/Occlusion_SAM.git
 cd Occlusion_SAM
 ```
 
-2. Create and activate virtual environment:
+### 2. Create and activate virtual environment:
 
 **Using venv:**
 ```bash
@@ -39,12 +46,12 @@ conda create -n occlusion_sam python=3.10
 conda activate occlusion_sam
 ```
 
-3. Install dependencies:
+### 3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Download model checkpoints:
+### 4. Download model checkpoints:
 
 **SAM ViT-B:**
 ```bash
@@ -64,7 +71,7 @@ wget https://zenodo.org/records/10689643/files/medsam_vit_b.pth -O checkpoints/m
 curl -L https://zenodo.org/records/10689643/files/medsam_vit_b.pth -o checkpoints/medsam_vit_b.pth
 ```
 
-5. Prepare datasets in dataset/ folder:
+### 5. Prepare datasets in dataset/ folder:
 
 **CVC-ClinicDB:**
 - Download from: https://www.kaggle.com/datasets/balraj98/cvcclinicdb
@@ -86,20 +93,45 @@ curl -L https://zenodo.org/records/10689643/files/medsam_vit_b.pth -o checkpoint
   └── masks/         # Segmentation masks
   ```
 
+**Kvasir-instrument**:
+Used to extract surgical tool for occlusion objects
+- Download from: https://www.kaggle.com/datasets/debeshjha1/kvasirinstrument
+- Extract to `dataset/kvasir-instrument`
+
+### 6. Extract surgical tool from Kvasir-instrument dataset:
+Only extract 20 tools from this dataset. Each tool will be randomly chosen as an occlusion object
+```bash
+python -c "from utils.helpers import extract_tools_from_masks; extract_tools_from_masks('./dataset/kvasir-instrument', num_samples=20, save_dir='./outputs/extracted_tools')"
+```
+
 ## Usage
 
-Basic usage:
-# No occlusion (baseline)
+### No occlusion (baseline)
+```bash
 python main.py --dataset cvc --model medsam --occlusion none
+```
 
-# Cutout with single ratio
+### Cutout with single ratio
+```bash
 python main.py --dataset kvasir --model sam --occlusion cutout --ratio 0.2
+```
 
-# Cutmix with multiple ratios
+### Cutmix with multiple ratios
+```bash
 python main.py --dataset cvc --model medsam --occlusion cutmix --ratio 0.1 0.2 0.3 0.4 0.5
+```
+
+### Surgical Tool Occlusion (Step 6: Extract tools from Kvasir dataset)
+```bash
+python main.py --dataset kvasir --model medsam --occlusion surgical_tool --ratio 0.2 --tools_dir ./outputs/extracted_tools
+```
 
 With visualization:
+```bash
 python main.py --dataset cvc --model medsam --occlusion cutout --ratio 0.2 --visualize
+```
 
 Test on subset:
+```bash
 python main.py --dataset kvasir --model sam --occlusion none --num_samples 10
+```
