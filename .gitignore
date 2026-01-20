@@ -77,8 +77,7 @@ outputs/
 results/
 
 # Data files ()
-dataset/
-data/
+dataset/*
 !dataset/.gitkeep
 
 # OS files
